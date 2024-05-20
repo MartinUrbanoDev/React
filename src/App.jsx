@@ -1,41 +1,28 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useState } from 'react';
+import useLocalStorage from './hooks/useLocalStorage';
+import { addTask, deleteTask, startEditingTask, editTask } from './utils/TaskUtils';
 
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useLocalStorage('tasks', []);
   const [newTask, setNewTask] = useState('');
   const [editingTask, setEditingTask] = useState(null);
 
-  useEffect(() => {
-    const savedTasks = JSON.parse(localStorage.getItem('tasks'));
-    if (savedTasks) {
-      setTasks(savedTasks);
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-  }, [tasks]);
-
-  const addTask = () => {
-    if (newTask.trim()) {
-      setTasks([...tasks, { text: newTask, id: Date.now() }]);
-      setNewTask('');
-    }
+  const handleAddTask = () => {
+    setTasks(addTask(tasks, newTask));
+    setNewTask('');
   };
 
-  const deleteTask = (id) => {
-    setTasks(tasks.filter(task => task.id !== id));
+  const handleDeleteTask = (id) => {
+    setTasks(deleteTask(tasks, id));
   };
 
-  const startEditingTask = (task) => {
-    setEditingTask(task);
-    setNewTask(task.text);
+  const handleStartEditingTask = (task) => {
+    startEditingTask(task, setEditingTask, setNewTask);
   };
 
-  const editTask = () => {
-    setTasks(tasks.map(task =>
-      task.id === editingTask.id ? { ...task, text: newTask } : task
-    ));
+  const handleEditTask = () => {
+    setTasks(editTask(tasks, editingTask, newTask));
     setEditingTask(null);
     setNewTask('');
   };
@@ -53,7 +40,7 @@ function App() {
           />
           <button
             className="bg-blue-500 text-white p-2 ml-2"
-            onClick={editingTask ? editTask : addTask}
+            onClick={editingTask ? handleEditTask : handleAddTask}
           >
             {editingTask ? 'Edit Task' : 'Add Task'}
           </button>
@@ -65,13 +52,13 @@ function App() {
               <div>
                 <button
                   className="bg-orange-500 text-white p-2 mr-2"
-                  onClick={() => startEditingTask(task)}
+                  onClick={() => handleStartEditingTask(task)}
                 >
                   Edit
                 </button>
                 <button
                   className="bg-red-500 text-white p-2"
-                  onClick={() => deleteTask(task.id)}
+                  onClick={() => handleDeleteTask(task.id)}
                 >
                   Delete
                 </button>
