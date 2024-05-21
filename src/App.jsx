@@ -64,13 +64,13 @@ function App() {
                   className="bg-orange-500 text-white p-2 mr-2"
                   onClick={() => handleStartEditingTask(task)}
                 >
-                  Edit
+                  <img src="/public/pencil-icon.svg" alt="pencil" />
                 </button>
                 <button
                   className="bg-red-500 text-white p-2"
                   onClick={() => handleDeleteTask(task.id)}
                 >
-                  Delete
+                  <img src="/public/close-icon.svg" alt="trash" />
                 </button>
               </div>
             </li>
