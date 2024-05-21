@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import useLocalStorage from './hooks/useLocalStorage';
 import { addTask, deleteTask, startEditingTask, editTask } from './utils/TaskUtils';
+import { EditInput } from './svg/EditInput';
 
 function App() {
   const [tasks, setTasks] = useLocalStorage('tasks', []);
@@ -64,7 +65,7 @@ function App() {
                   className="bg-orange-500 text-white p-2 mr-2"
                   onClick={() => handleStartEditingTask(task)}
                 >
-                  <img src="/public/pencil-icon.svg" alt="pencil" />
+                  <EditInput />
                 </button>
                 <button
                   className="bg-red-500 text-white p-2"
