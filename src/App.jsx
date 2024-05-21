@@ -26,6 +26,15 @@ function App() {
     setEditingTask(null);
     setNewTask('');
   };
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      if (editingTask) {
+        handleEditTask()
+      } else {
+        handleAddTask()
+      }
+    }
+  }
 
   return (
     <div className="min-h-screen bg-[#2D2D2D] flex items-center justify-center">
@@ -37,6 +46,7 @@ function App() {
             className="focus:shadow-lg focus:shadow-blue-400 pl-12 w-full py-4 bg-gray-700 rounded-xl outline-none transition-all duration-300 ease-in-out"
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
           <button
             className="bg-blue-500 text-white p-2 ml-2"
