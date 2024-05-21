@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import useLocalStorage from './hooks/useLocalStorage';
 import { addTask, deleteTask, startEditingTask, editTask } from './utils/TaskUtils';
 import { EditInput } from './svg/EditInput';
+import { Trash } from './svg/Trash';
 
 function App() {
   const [tasks, setTasks] = useLocalStorage('tasks', []);
@@ -71,7 +72,7 @@ function App() {
                   className="bg-red-500 text-white p-2"
                   onClick={() => handleDeleteTask(task.id)}
                 >
-                  <img src="/public/close-icon.svg" alt="trash" />
+                  <Trash />
                 </button>
               </div>
             </li>
